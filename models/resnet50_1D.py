@@ -67,15 +67,16 @@ class ResNet50(torch.nn.Module):
             # torch.nn.AdaptiveAvgPool1d(1)
         )
         self.classifer = torch.nn.Sequential(
-            torch.nn.Linear(2048,1024),
-            torch.nn.Linear(1024,512),
-            torch.nn.Linear(512,256),
-            torch.nn.Linear(256,classes)
+#             torch.nn.Linear(2048,1024),
+#             torch.nn.Linear(1024,512),
+#             torch.nn.Linear(512,256),
+#             torch.nn.Linear(256,classes)
+            torch.nn.Linear(16,classes)
         )
 
     def forward(self,x):
         x = self.features(x)
-        x = x.permute(0,2,1)
+        # x = x.permute(0,2,1)
         x = self.classifer(x)
         return x
 
