@@ -73,7 +73,7 @@ class ResNet50(torch.nn.Module):
             torch.nn.Linear(1024,512),
             torch.nn.Linear(512,256),
             torch.nn.Linear(256,classes),
-            torch.nn.Linear(16,classes)
+            # torch.nn.Linear(16,classes)
         )
 
     def forward(self,x):
