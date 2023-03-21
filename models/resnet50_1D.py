@@ -33,8 +33,10 @@ class Bottlrneck(torch.nn.Module):
         return self.layer(x)+residual
 
 #-------------------------------------------------------------------------------------------#
+# 输入为（32、label+perlen、512）
 # 输入通道就是72，也就是48(老代)+24(要预测的个数)，输出通道数应该还是72，然后最后一个维度是512，一直变化为最后输出的是1
 # 上述Bottlrneck上面是单个残差块的实现，下面是ResNet50整体模型的实现
+# 输出为（32、perlen、c_out）
 #-------------------------------------------------------------------------------------------#
 
 class ResNet50(torch.nn.Module):
@@ -67,17 +69,18 @@ class ResNet50(torch.nn.Module):
             # torch.nn.AdaptiveAvgPool1d(1)
         )
         self.classifer = torch.nn.Sequential(
-#             torch.nn.Linear(2048,1024),
-#             torch.nn.Linear(1024,512),
-#             torch.nn.Linear(512,256),
-#             torch.nn.Linear(256,classes)
+            torch.nn.Linear(2048,1024),
+            torch.nn.Linear(1024,512),
+            torch.nn.Linear(512,256),
+            torch.nn.Linear(256,classes)
             torch.nn.Linear(16,classes)
         )
 
     def forward(self,x):
         x = self.features(x)
-        # x = x.permute(0,2,1)
+        x = x.permute(0,2,1)
         x = self.classifer(x)
+        
         return x
 
 # if __name__ == '__main__':
