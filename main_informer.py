@@ -57,6 +57,7 @@ parser.add_argument('--use_gpu', type=bool, default=True, help='use gpu')
 parser.add_argument('--gpu', type=int, default=0, help='gpu')
 parser.add_argument('--use_multi_gpu', action='store_true', help='use multiple gpus', default=False)
 parser.add_argument('--devices', type=str, default='0,1,2,3',help='device ids of multile gpus')
+parser.add_argument('--data_num', type=int, default=15, help='3w是12*15,5w是12*24,7w是12*36,10w是12*52,20w是12*104')
 
 args = parser.parse_args()
 
