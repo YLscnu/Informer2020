@@ -15,7 +15,7 @@ warnings.filterwarnings('ignore')
 
 class Dataset_ETT_hour(Dataset):
     def __init__(self, root_path, flag='train', size=None, 
-                 features='S', data_path='ETTh1.csv', 
+                 features='S', data_path='ETTh1.csv', data_num=15,
                  target='OT', scale=True, inverse=False, timeenc=0, freq='h', cols=None):
         # size [seq_len, label_len, pred_len]
         # info
@@ -41,6 +41,7 @@ class Dataset_ETT_hour(Dataset):
         
         self.root_path = root_path
         self.data_path = data_path
+        self.data_num = data_num
         self.__read_data__()
 
     def __read_data__(self):
@@ -48,8 +49,8 @@ class Dataset_ETT_hour(Dataset):
         df_raw = pd.read_csv(os.path.join(self.root_path,
                                           self.data_path))
 
-        border1s = [0, 12*30*24 - self.seq_len, 12*30*24+4*30*24 - self.seq_len]
-        border2s = [12*30*24, 12*30*24+4*30*24, 12*30*24+8*30*24]
+        border1s = [0, 12*self.data_num*24 - self.seq_len, 12*self.data_num*24+4*self.data_num*24 - self.seq_len]
+        border2s = [12*self.data_num*24, 12*self.data_num*24+4*self.data_num*24, 12*self.data_num*24+8*self.data_num*24]
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
         
@@ -107,7 +108,7 @@ class Dataset_ETT_hour(Dataset):
 
 class Dataset_ETT_minute(Dataset):
     def __init__(self, root_path, flag='train', size=None, 
-                 features='S', data_path='ETTm1.csv', 
+                 features='S', data_path='ETTm1.csv', data_num=15,
                  target='OT', scale=True, inverse=False, timeenc=0, freq='t', cols=None):
         # size [seq_len, label_len, pred_len]
         # info
@@ -133,6 +134,7 @@ class Dataset_ETT_minute(Dataset):
         
         self.root_path = root_path
         self.data_path = data_path
+        self.data_num  = data_num
         self.__read_data__()
 
     def __read_data__(self):
@@ -140,8 +142,8 @@ class Dataset_ETT_minute(Dataset):
         df_raw = pd.read_csv(os.path.join(self.root_path,
                                           self.data_path))
 
-        border1s = [0, 12*15*24*4 - self.seq_len, 16*15*24*4 - self.seq_len]
-        border2s = [12*15*24*4, 16*15*24*4, 20*15*24*4]
+        border1s = [0, 12*self.data_num*24*4 - self.seq_len, 16*self.data_num*24*4 - self.seq_len]
+        border2s = [12*self.data_num*24*4, 16*self.data_num*24*4, 20*self.data_num*24*4]
         # 3w是12*15,5w是12*24,7w是12*36,10w是12*52,20w是12*104，最后的24*4不变
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
